@@ -1,0 +1,52 @@
+{
+    "name": "northwoods/lazy-middleware",
+    "description": "Middleware proxy for lazy loading",
+    "keywords": [
+        "http",
+        "psr-15",
+        "middleware",
+        "lazy",
+        "proxy",
+        "container"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Woody Gilk",
+            "email": "woody.gilk@gmail.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Northwoods\\Middleware\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Northwoods\\Middleware\\": "tests"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "psr/container": "^1.0",
+        "psr/http-server-middleware": "^1.0"
+    },
+    "require-dev": {
+        "nyholm/psr7": "^1.0",
+        "phpstan/phpstan": "^0.10.3",
+        "phpstan/phpstan-phpunit": "^0.10.0",
+        "phpunit/phpunit": "^7.3",
+        "squizlabs/php_codesniffer": "^3.3"
+    },
+    "scripts": {
+        "analyze": "phpstan analyse -l max -c phpstan.neon src tests --no-progress",
+        "check": "phpcs -n",
+        "test": "phpunit --testdox",
+        "ci": ["@analyze", "@check", "@test"]
+    }
+}

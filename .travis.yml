@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+env:
+  - COMPOSER_FLAGS=
+  - COMPOSER_FLAGS="--prefer-lowest"
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_script:
+  - composer update -n ${COMPOSER_FLAGS}
+
+script:
+  - composer analyze
+  - composer check
+  - composer test
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
