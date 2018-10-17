@@ -1,6 +1,6 @@
 # Northwoods Lazy Middleware
 
-[![Build Status](https://travis-ci.org/northwoods/lazy-middleware.svg?branch=develop)](https://travis-ci.org/northwoods/lazy-middleware)
+[![Build Status](https://travis-ci.com/northwoods/lazy-middleware.svg?branch=master)](https://travis-ci.com/northwoods/lazy-middleware)
 [![Code Quality](https://scrutinizer-ci.com/g/northwoods/lazy-middleware/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/northwoods/lazy-middleware/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/northwoods/lazy-middleware/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/northwoods/lazy-middleware/?branch=master)
 [![Latest Stable Version](http://img.shields.io/packagist/v/northwoods/lazy-middleware.svg?style=flat)](https://packagist.org/packages/northwoods/lazy-middleware)
