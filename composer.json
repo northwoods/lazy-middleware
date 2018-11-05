@@ -1,10 +1,12 @@
 {
     "name": "northwoods/lazy-middleware",
-    "description": "Middleware proxy for lazy loading",
+    "description": "Lazy loading for middleware and request handlers",
     "keywords": [
         "http",
         "psr-15",
         "middleware",
+        "handler",
+        "request",
         "lazy",
         "proxy",
         "container"
