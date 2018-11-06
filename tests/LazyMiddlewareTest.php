@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
-use InvalidArgumentException;
 use Northwoods\Middleware\Fixture\Handler;
 use Northwoods\Middleware\Fixture\Middleware;
 use Nyholm\Psr7\ServerRequest;
@@ -29,14 +28,6 @@ class LazyMiddlewareTest extends TestCase
                 return new $id();
             }
         };
-    }
-
-    public function testVerifiesMiddlewareImplementation(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(self::class);
-
-        $middleware = new LazyMiddleware($this->container, self::class);
     }
 
     public function testDefersToMiddlewareImplemention(): void

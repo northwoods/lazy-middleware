@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
-use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,12 +18,6 @@ class LazyHandler implements RequestHandlerInterface
 
     public function __construct(ContainerInterface $container, string $handler)
     {
-        if (! is_subclass_of($handler, RequestHandlerInterface::class, true)) {
-            throw new InvalidArgumentException(
-                sprintf('%s does not implement %s', $handler, RequestHandlerInterface::class)
-            );
-        }
-
         $this->container = $container;
         $this->handler = $handler;
     }

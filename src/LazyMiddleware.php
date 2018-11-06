@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
-use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,12 +19,6 @@ class LazyMiddleware implements MiddlewareInterface
 
     public function __construct(ContainerInterface $container, string $middleware)
     {
-        if (! is_subclass_of($middleware, MiddlewareInterface::class, true)) {
-            throw new InvalidArgumentException(
-                sprintf('%s does not implement %s', $middleware, MiddlewareInterface::class)
-            );
-        }
-
         $this->container = $container;
         $this->middleware = $middleware;
     }
