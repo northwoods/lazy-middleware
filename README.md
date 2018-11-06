@@ -7,10 +7,11 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/northwoods/lazy-middleware.svg?style=flat)](https://packagist.org/packages/northwoods/lazy-middleware)
 [![License](https://img.shields.io/packagist/l/northwoods/lazy-middleware.svg?style=flat)](https://packagist.org/packages/northwoods/lazy-middleware)
 
-Lazy middleware factory that supports "just in time" instantiation of middleware
-using a [PSR-11][psr-container] [container][containers].
+Lazy loading for [PSR-15 middleware and request handlers][psr15] that supports
+"just in time" instantiation using a [PSR-11][psr11] [container][containers].
 
-[psr-container]: https://www.php-fig.org/psr/psr-11/
+[psr15]: https://www.php-fig.org/psr/psr-15/
+[psr11]: https://www.php-fig.org/psr/psr-11/
 [containers]: https://packagist.org/providers/psr/container-implementation
 
 ## Installation
@@ -23,31 +24,42 @@ composer require northwoods/lazy-middleware
 
 ## Usage
 
+This package contains two factories: one for request handlers and one for middleware.
+
+### LazyHandlerFactory::defer($handler)
+
+Create a new lazy handler.
+
+The `$handler` identifier is *not* required to be a class name. Any string
+that refers to a container identifier can be used.
+
+```php
+use Northwoods\Middleware\LazyHandlerFactory;
+
+/** @var ContainerInterface */
+$container = /* any container */;
+
+$lazyHandler = new LazyHandlerFactory($container);
+
+/** @var \Psr\Http\Server\RequestHandlerInterface */
+$handler = $lazyHandler->defer(Acme\FooHandler::class);
+```
+
+### LazyMiddlewareFactory::defer($middleware)
+
+Create a new lazy middleware.
+
+The `$middleware` identifier is *not* required to be a class name. Any string
+that refers to a container identifier can be used.
+
 ```php
 use Northwoods\Middleware\LazyMiddlewareFactory;
 
 /** @var ContainerInterface */
 $container = /* any container */;
 
-// Create a new factory
-$factory = new LazyMiddlewareFactory($container);
+$lazyMiddleware = new LazyMiddlewareFactory($container);
 
-// Create a new lazy middleware
-$middleware = $factory->defer(Acme\Middleware::class);
+/** @var \Psr\Http\Server\MiddlewareInterface */
+$middleware = $lazyMiddleware->defer(Acme\BarMiddleware::class);
 ```
-
-The created `$middleware` instance will wait until the `process()` method is
-called and then resolve the proxied middleware and call its `process()` method.
-
-It is also possible to create lazy middleware instances directly:
-
-```php
-use Northwoods\Middleware\LazyMiddleware;
-
-/** @var ContainerInterface */
-$container = /* any container */;
-
-$middleware = new LazyMiddleware($container, Acme\Middleware::class);
-```
-
-Generally the factory is preferred as it reduces the amount of code required.

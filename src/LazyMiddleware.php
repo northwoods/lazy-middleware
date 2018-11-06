@@ -33,9 +33,11 @@ class LazyMiddleware implements MiddlewareInterface
     // MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        /** @var MiddlewareInterface */
-        $middleware = $this->container->get($this->middleware);
+        return $this->resolve()->process($request, $handler);
+    }
 
-        return $middleware->process($request, $handler);
+    private function resolve(): MiddlewareInterface
+    {
+        return $this->container->get($this->middleware);
     }
 }

@@ -5,12 +5,11 @@ namespace Northwoods\Middleware;
 
 use InvalidArgumentException;
 use Northwoods\Middleware\Fixture\Handler;
-use Northwoods\Middleware\Fixture\Middleware;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-class LazyMiddlewareTest extends TestCase
+class LazyHandlerTest extends TestCase
 {
     /** @var ContainerInterface */
     private $container;
@@ -31,24 +30,22 @@ class LazyMiddlewareTest extends TestCase
         };
     }
 
-    public function testVerifiesMiddlewareImplementation(): void
+    public function testVerifiesHandlerImplementation(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(self::class);
 
-        $middleware = new LazyMiddleware($this->container, self::class);
+        $handler = new LazyHandler($this->container, self::class);
     }
 
-    public function testDefersToMiddlewareImplemention(): void
+    public function testDefersToHandlerImplemention(): void
     {
-        $middleware = new LazyMiddleware($this->container, Middleware::class);
+        $handler = new LazyHandler($this->container, Handler::class);
 
-        $handler = new Handler();
         $request = new ServerRequest('GET', 'https://example.com/');
 
-        $response = $middleware->process($request, $handler);
+        $response = $handler->handle($request);
 
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals(Middleware::class, (string) $response->getBody());
+        $this->assertEquals(400, $response->getStatusCode());
     }
 }
