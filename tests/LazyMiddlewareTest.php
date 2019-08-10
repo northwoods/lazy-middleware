@@ -14,7 +14,7 @@ class LazyMiddlewareTest extends TestCase
     /** @var ContainerInterface */
     private $container;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->container = new class implements ContainerInterface
         {

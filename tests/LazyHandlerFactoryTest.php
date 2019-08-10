@@ -13,7 +13,7 @@ class LazyHandlerFactoryTest extends TestCase
     /** @var LazyHandlerFactory */
     private $factory;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $container = new class implements ContainerInterface
         {
