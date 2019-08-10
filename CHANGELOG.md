@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 2.0.0 - 2019-08-10
+
+### Changed
+
+- Require PHP >= 7.2
+
 ## 1.1.1 - 2018-11-06
 
 ### Fixed
