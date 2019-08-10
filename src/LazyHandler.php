@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use function sprintf;
 
 class LazyHandler implements RequestHandlerInterface
 {
@@ -18,6 +20,10 @@ class LazyHandler implements RequestHandlerInterface
 
     public function __construct(ContainerInterface $container, string $handler)
     {
+        if ($container->has($handler) === false) {
+            throw new InvalidArgumentException(sprintf('Container is missing handler "%s"', $handler));
+        }
+
         $this->container = $container;
         $this->handler = $handler;
     }

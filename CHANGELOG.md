@@ -5,6 +5,7 @@
 ### Changed
 
 - Require PHP >= 7.2
+- Check that container reference exists
 
 ## 1.1.1 - 2018-11-06
 
