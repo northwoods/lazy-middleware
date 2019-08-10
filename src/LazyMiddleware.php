@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
+use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use function sprintf;
 
 class LazyMiddleware implements MiddlewareInterface
 {
@@ -19,6 +21,10 @@ class LazyMiddleware implements MiddlewareInterface
 
     public function __construct(ContainerInterface $container, string $middleware)
     {
+        if ($container->has($middleware) === false) {
+            throw new InvalidArgumentException(sprintf('Container is missing middleware "%s"', $middleware));
+        }
+
         $this->container = $container;
         $this->middleware = $middleware;
     }

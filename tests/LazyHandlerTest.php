@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
+use InvalidArgumentException;
 use Northwoods\Middleware\Fixture\Handler;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,7 @@ class LazyHandlerTest extends TestCase
         };
     }
 
-    public function testDefersToHandlerImplemention(): void
+    public function testDefersToHandlerImplementation(): void
     {
         $handler = new LazyHandler($this->container, Handler::class);
 
@@ -38,5 +39,13 @@ class LazyHandlerTest extends TestCase
         $response = $handler->handle($request);
 
         $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testFailsIfContainerDoesNotHaveHandler(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('invalid');
+
+        new LazyHandler($this->container, 'invalid');
     }
 }

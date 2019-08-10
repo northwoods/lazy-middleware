@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Northwoods\Middleware;
 
+use InvalidArgumentException;
 use Northwoods\Middleware\Fixture\Handler;
 use Northwoods\Middleware\Fixture\Middleware;
 use Nyholm\Psr7\ServerRequest;
@@ -41,5 +42,13 @@ class LazyMiddlewareTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(Middleware::class, (string) $response->getBody());
+    }
+
+    public function testFailsIfContainerDoesNotHaveMiddleware(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('invalid');
+
+        new LazyMiddleware($this->container, 'invalid');
     }
 }
